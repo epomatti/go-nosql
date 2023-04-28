@@ -75,4 +75,25 @@ func main() {
 
 	fmt.Printf("Found actor: %+v\n", result)
 
+	// Update
+	update := bson.D{
+		{Key: "$inc", Value: bson.D{
+			{Key: "awards", Value: 1},
+		}},
+	}
+
+	updateResult, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Matched %v actors and updated %v actors.\n", updateResult.MatchedCount, updateResult.ModifiedCount)
+
+	// Delete
+	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Deleted %v actors\n", deleteResult.DeletedCount)
 }
