@@ -1,3 +1,9 @@
+Operatoins in Go with MongoDB
 
+Start a MongoDB instance:
 
-docker run --name go-mongo -d -p 27017:27017 mongo
+  docker run --name go-mongo -d -p 27017:27017 mongo
+
+Run the examples:
+
+  go run .

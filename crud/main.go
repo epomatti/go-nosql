@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -35,9 +36,9 @@ func main() {
 	// Insert One
 
 	type Actor struct {
-		firstname string
-		lastname  string
-		awards    int16
+		FirstName string
+		LastName  string
+		Awards    int16
 	}
 
 	collection := client.Database("dvdstore").Collection("actordetails")
@@ -61,5 +62,17 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("Inserted multiple actors: ", insertManyResult.InsertedIDs)
+
+	// Find
+	// filter := bson.D{}
+	filter := bson.D{{Key: "firstname", Value: "Mili"}}
+	var result Actor
+
+	err = collection.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Found actor: %+v\n", result)
 
 }
